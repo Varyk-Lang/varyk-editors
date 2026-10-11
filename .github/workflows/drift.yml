@@ -1,0 +1,31 @@
+name: Drift
+
+# An early warning, not a required check: are the grammar's keywords still
+# the compiler's? This compares textmate/keywords.txt with the KEYWORDS
+# array of the compiler's lexer on main, so a red run means the compiler
+# moved and this repository has to follow (AGENTS.md).
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch the compiler's lexer
+        run: curl --fail --silent --show-error --location --proto '=https' --output "$RUNNER_TEMP/lexer.rs" https://raw.githubusercontent.com/Varyk-Lang/varyk/main/crates/varyk-syntax/src/lexer.rs
+
+      - name: Compare the keywords
+        run: node scripts/drift-keywords.mjs "$RUNNER_TEMP/lexer.rs"

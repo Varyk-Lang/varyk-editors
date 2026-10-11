@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  grammar:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: vscode
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm ci
+
+      # The grammar copy in vscode/syntaxes/ is byte for byte textmate/'s,
+      # the grammar tests pass, and the keywords are textmate/keywords.txt.
+      - name: Check
+        run: npm run check
+
+  vscode:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: vscode
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # As the publish job installs (release.yml).
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      - name: Package
+        run: npx vsce package
+
+  zed:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: zed
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-wasip2
+          components: rustfmt, clippy
+
+      - name: Format check
+        run: cargo fmt --check
+
+      - name: Clippy
+        run: cargo clippy --target wasm32-wasip2 -- -D warnings
+
+      - name: Build
+        run: cargo build --target wasm32-wasip2

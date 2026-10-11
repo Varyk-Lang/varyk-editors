@@ -1,0 +1,7 @@
+*.vsix
+package-lock.json
+.vscodeignore
+**/*.map
+**/*.ts
+**/test/**
+**/tests/**

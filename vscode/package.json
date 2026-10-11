@@ -1,0 +1,70 @@
+{
+  "name": "varyk",
+  "displayName": "Varyk",
+  "description": "Highlighting for Varyk, and diagnostics and quick fixes from varyk lsp.",
+  "publisher": "varyk",
+  "version": "0.0.0",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Varyk-Lang/varyk-editors"
+  },
+  "icon": "icon.png",
+  "main": "./extension.js",
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Highlighting works in Restricted Mode. Diagnostics start once the folder is trusted, since they run varyk."
+    }
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "varyk",
+        "aliases": [
+          "Varyk"
+        ],
+        "extensions": [
+          ".vr"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "varyk",
+        "scopeName": "source.varyk",
+        "path": "./syntaxes/varyk.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "Varyk",
+      "properties": {
+        "varyk.path": {
+          "type": "string",
+          "default": "varyk",
+          "description": "The varyk command that starts the language server (run as `<varyk.path> lsp`)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test:grammar": "vscode-tmgrammar-test -g ../textmate/varyk.tmLanguage.json '../textmate/tests/*.vr'",
+    "check": "cmp ../textmate/varyk.tmLanguage.json syntaxes/varyk.tmLanguage.json && npm run test:grammar && node ../scripts/check-keywords.mjs",
+    "vscode:prepublish": "cp ../CHANGELOG.md CHANGELOG.md && cat ../LICENSE-MIT ../LICENSE-APACHE > LICENSE"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^10.1.2"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^4.0.0",
+    "ovsx": "^1.2.0",
+    "vscode-tmgrammar-test": "^0.1.3"
+  }
+}

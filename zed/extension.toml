@@ -1,0 +1,15 @@
+id = "varyk"
+name = "Varyk"
+version = "0.0.0"
+schema_version = 1
+authors = ["Vlad Mickevic <v@mickevic.com>"]
+description = "Varyk support: highlighting on the Tree-sitter grammar, and diagnostics from varyk lsp."
+repository = "https://github.com/Varyk-Lang/varyk-editors"
+
+[grammars.varyk]
+repository = "https://github.com/Varyk-Lang/tree-sitter-varyk"
+rev = "da31ee516f9aeb9b001698cee5fbaa81a9418d33"
+
+[language_servers.varyk]
+name = "Varyk"
+languages = ["Varyk"]

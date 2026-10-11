@@ -1,0 +1,95 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  tags:
+    # The version in the manifest must have its tag. A release whose section
+    # release-please could not read is published but never tagged, and the
+    # next release pull request then proposes a version that has already
+    # shipped; this fails the run on the day that happens.
+    needs: release-please
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: The released version has its tag
+        run: |
+          version=$(jq -r '.["."]' .release-please-manifest.json)
+          tag="v$version"
+          if [ "$version" = "0.0.0" ]; then
+            echo "nothing released yet"
+          elif git ls-remote --exit-code --tags origin "refs/tags/$tag" > /dev/null; then
+            echo "found $tag"
+          else
+            echo "::error::$tag is missing: release-please did not tag it (see the rule on < and > in commit subjects in CONTRIBUTING.md); create it at the release commit before merging the next release pull request"
+            exit 1
+          fi
+
+  publish:
+    needs: release-please
+    if: needs.release-please.outputs.releases_created == 'true'
+    runs-on: ubuntu-latest
+    # AZURE_CLIENT_ID and AZURE_TENANT_ID are variables, and OVSX_PAT a
+    # secret, of the `release` environment (CONTRIBUTING.md).
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: vscode
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # No dependency's install script runs in a job that can mint an id
+      # token; packaging and publishing need none of them (the scripts only
+      # fetch the vsce-sign binary, for signing, and build keytar).
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      # One .vsix for both registries.
+      - name: Package
+        run: npx vsce package --out varyk.vsix
+
+      # The Marketplace takes no personal access token: the job signs in to
+      # Entra ID with the federated credential of the `release` environment.
+      # Move to `vsce publish --oidc` once Microsoft's publishing docs cover
+      # the trusted-publishing policy it needs.
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      # `--skip-duplicate`: a registry that already has this version passes,
+      # so a run that failed after one registry took the upload can be rerun.
+      - name: Publish to the Visual Studio Marketplace
+        run: npx vsce publish --packagePath varyk.vsix --azure-credential --skip-duplicate
+
+      - name: Publish to Open VSX
+        # ovsx reads the token from OVSX_PAT.
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: npx ovsx publish --packagePath varyk.vsix --skip-duplicate

@@ -1,0 +1,48 @@
+// SYNTAX TEST "source.varyk"
+    if else match while for in break continue return await
+//  ^^ keyword.control.varyk
+//     ^^^^ keyword.control.varyk
+//          ^^^^^ keyword.control.varyk
+//                ^^^^^ keyword.control.varyk
+//                      ^^^ keyword.control.varyk
+//                          ^^ keyword.control.varyk
+//                             ^^^^^ keyword.control.varyk
+//                                   ^^^^^^^^ keyword.control.varyk
+//                                            ^^^^^^ keyword.control.varyk
+//                                                   ^^^^^ keyword.control.varyk
+    fn struct enum impl mod use let mut pub async as
+//  ^^ keyword.other.varyk
+//     ^^^^^^ keyword.other.varyk
+//            ^^^^ keyword.other.varyk
+//                 ^^^^ keyword.other.varyk
+//                      ^^^ keyword.other.varyk
+//                          ^^^ keyword.other.varyk
+//                              ^^^ keyword.other.varyk
+//                                  ^^^ keyword.other.varyk
+//                                      ^^^ keyword.other.varyk
+//                                          ^^^^^ keyword.other.varyk
+//                                                ^^ keyword.other.varyk
+    self crate super
+//  ^^^^ variable.language.varyk
+//       ^^^^^ variable.language.varyk
+//             ^^^^^ variable.language.varyk
+    true false
+//  ^^^^ constant.language.boolean.varyk
+//       ^^^^^ constant.language.boolean.varyk
+    let v = task.await;
+//               ^^^^^ keyword.control.varyk
+    if (ready) { return; }
+//  ^^ keyword.control.varyk - entity.name.function.varyk
+    use crate::store::save;
+//      ^^^^^ variable.language.varyk
+    let iffy = selfish && truest;
+//      ^^^^ - keyword.control.varyk
+//             ^^^^^^^ - variable.language.varyk
+//                        ^^^^^^ - constant.language.boolean.varyk
+    println!("x");
+//  ^^^^^^^^ entity.name.function.macro.varyk
+    let line = format!("{}", x);
+//             ^^^^^^^ entity.name.function.macro.varyk
+    let same = x!=y;
+//             ^ - entity.name.function.macro.varyk
+//              ^^ keyword.operator.varyk

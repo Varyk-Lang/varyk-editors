@@ -1,0 +1,107 @@
+{
+  "name": "varyk",
+  "scopeName": "source.varyk",
+  "fileTypes": ["vr"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#attributes" },
+    { "include": "#numbers" },
+    { "include": "#booleans" },
+    { "include": "#keywords-control" },
+    { "include": "#keywords-other" },
+    { "include": "#language-variables" },
+    { "include": "#macros" },
+    { "include": "#functions" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#user-types" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "name": "comment.line.double-slash.varyk",
+      "match": "//.*$"
+    },
+    "strings": {
+      "name": "string.quoted.double.varyk",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.varyk",
+          "match": "\\\\[nt\\\\\"0]"
+        },
+        {
+          "match": "\\{\\{|\\}\\}"
+        },
+        {
+          "name": "constant.other.placeholder.varyk",
+          "match": "\\{[^{}\"\\\\]*\\}"
+        }
+      ]
+    },
+    "attributes": {
+      "name": "meta.attribute.varyk",
+      "begin": "#\\[",
+      "end": "\\]",
+      "patterns": [
+        { "include": "#strings" },
+        { "include": "#numbers" },
+        { "include": "#booleans" }
+      ]
+    },
+    "numbers": {
+      "name": "constant.numeric.varyk",
+      "match": "\\b[0-9][0-9_]*(?:\\.[0-9][0-9_]*)?\\b"
+    },
+    "booleans": {
+      "name": "constant.language.boolean.varyk",
+      "match": "\\b(true|false)\\b"
+    },
+    "keywords-control": {
+      "name": "keyword.control.varyk",
+      "match": "\\b(if|else|match|while|for|in|break|continue|return|await)\\b"
+    },
+    "keywords-other": {
+      "name": "keyword.other.varyk",
+      "match": "\\b(fn|struct|enum|impl|mod|use|let|mut|pub|async|as)\\b"
+    },
+    "language-variables": {
+      "name": "variable.language.varyk",
+      "match": "\\b(self|crate|super)\\b"
+    },
+    "macros": {
+      "name": "entity.name.function.macro.varyk",
+      "match": "\\b[a-z_][A-Za-z0-9_]*!(?!=)"
+    },
+    "functions": {
+      "name": "entity.name.function.varyk",
+      "match": "\\b[a-z_][A-Za-z0-9_]*(?=\\()"
+    },
+    "types": {
+      "name": "support.type.varyk",
+      "match": "\\b(bool|i8|i16|i32|i64|u8|u16|u32|u64|usize|f32|f64|string|Option|Result|Vec|HashMap|Error|Shared|Task|Time|Uuid|Bytes)\\b"
+    },
+    "constants": {
+      "name": "support.constant.varyk",
+      "match": "\\b(Some|None|Ok|Err)\\b"
+    },
+    "user-types": {
+      "name": "entity.name.type.varyk",
+      "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.varyk",
+          "match": "::"
+        },
+        {
+          "name": "keyword.operator.varyk",
+          "match": "=>|->|\\.\\.=|\\.\\.|==|!=|<=|>=|&&|\\|\\||[-+*/%=<>!?&|]"
+        }
+      ]
+    }
+  }
+}
