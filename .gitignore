@@ -1,0 +1,7 @@
+node_modules/
+*.vsix
+vscode/LICENSE
+vscode/CHANGELOG.md
+zed/target/
+zed/grammars/
+zed/extension.wasm

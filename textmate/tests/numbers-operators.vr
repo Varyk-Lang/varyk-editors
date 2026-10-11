@@ -1,0 +1,47 @@
+// SYNTAX TEST "source.varyk"
+    let a = 1_000;
+//          ^^^^^ constant.numeric.varyk
+    let b = 2.5;
+//          ^^^ constant.numeric.varyk
+    for i in 0..n { }
+//           ^ constant.numeric.varyk
+//            ^^ keyword.operator.varyk - constant.numeric.varyk
+//              ^^^ - constant.numeric.varyk
+    for i in 0..=9 { }
+//           ^ constant.numeric.varyk
+//            ^^^ keyword.operator.varyk
+//               ^ constant.numeric.varyk
+    let c = -4;
+//          ^ keyword.operator.varyk
+//           ^ constant.numeric.varyk
+    let x1 = v2;
+//      ^^ - constant.numeric.varyk
+//           ^^ - constant.numeric.varyk
+    a == b; a != b; a <= b; a >= b; a < b; a > b;
+//    ^^ keyword.operator.varyk
+//            ^^ keyword.operator.varyk
+//                    ^^ keyword.operator.varyk
+//                            ^^ keyword.operator.varyk
+//                                    ^ keyword.operator.varyk
+//                                           ^ keyword.operator.varyk
+    a && b || !c;
+//    ^^ keyword.operator.varyk
+//         ^^ keyword.operator.varyk
+//            ^ keyword.operator.varyk
+    a + b - c * d / e % f;
+//    ^ keyword.operator.varyk
+//        ^ keyword.operator.varyk
+//            ^ keyword.operator.varyk
+//                ^ keyword.operator.varyk
+//                    ^ keyword.operator.varyk
+    let r = parse(s)?;
+//        ^ keyword.operator.varyk
+//                  ^ keyword.operator.varyk
+    match x { Some(v) => v, None => 0 }
+//                    ^^ keyword.operator.varyk
+    fn f() -> i32 { 0 }
+//         ^^ keyword.operator.varyk
+    let y = math::square(2);
+//              ^^ punctuation.separator.varyk
+    let add_one = |x| x + 1;
+//                ^ keyword.operator.varyk

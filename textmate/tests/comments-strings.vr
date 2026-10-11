@@ -1,0 +1,40 @@
+// SYNTAX TEST "source.varyk"
+    // a comment, to the end of the line
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.varyk
+    let x = 1; // after code
+//             ^^^^^^^^^^^^^ comment.line.double-slash.varyk
+//  ^^^ - comment.line.double-slash.varyk
+    let s = "a\nb\tc\\d\"e\0f";
+//          ^ string.quoted.double.varyk
+//           ^ string.quoted.double.varyk - constant.character.escape.varyk
+//            ^^ string.quoted.double.varyk constant.character.escape.varyk
+//               ^^ string.quoted.double.varyk constant.character.escape.varyk
+//                  ^^ string.quoted.double.varyk constant.character.escape.varyk
+//                     ^^ string.quoted.double.varyk constant.character.escape.varyk
+//                        ^^ string.quoted.double.varyk constant.character.escape.varyk
+//                          ^^ string.quoted.double.varyk
+//                            ^ - string.quoted.double.varyk
+    let u = "http://example.com";
+//                ^^^^^^^^^^^^^ string.quoted.double.varyk - comment.line.double-slash.varyk
+    println!("{} and {name}", a, b);
+//            ^^ string.quoted.double.varyk constant.other.placeholder.varyk
+//                   ^^^^^^ string.quoted.double.varyk constant.other.placeholder.varyk
+//              ^^^^^ string.quoted.double.varyk - constant.other.placeholder.varyk
+//                            ^^ - string.quoted.double.varyk
+    println!("{{ and }} print braces");
+//            ^^ string.quoted.double.varyk - constant.other.placeholder.varyk
+//                   ^^ string.quoted.double.varyk - constant.other.placeholder.varyk
+//              ^^^^^ string.quoted.double.varyk - constant.other.placeholder.varyk
+    println!("{{}}");
+//            ^^^^ string.quoted.double.varyk - constant.other.placeholder.varyk
+    #[test]
+//  ^^^^^^^ meta.attribute.varyk
+//    ^^^^ - entity.name.function.varyk
+    #[rename("key")]
+//  ^^^^^^^^^ meta.attribute.varyk - entity.name.function.varyk
+//           ^^^^^ meta.attribute.varyk string.quoted.double.varyk
+//                ^^ meta.attribute.varyk - string.quoted.double.varyk
+    #[default(8080)]
+//            ^^^^ meta.attribute.varyk constant.numeric.varyk
+    fn adds() {}
+//  ^^ - meta.attribute.varyk

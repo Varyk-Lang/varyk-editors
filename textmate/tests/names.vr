@@ -1,0 +1,55 @@
+// SYNTAX TEST "source.varyk"
+    fn add(a: i32, b: i32) -> i32 { a + b }
+//     ^^^ entity.name.function.varyk
+    let n = add(1, 2);
+//          ^^^ entity.name.function.varyk
+//      ^ - entity.name.function.varyk
+    let size = items.len();
+//                   ^^^ entity.name.function.varyk
+//             ^^^^^ - entity.name.function.varyk
+    let o = Some(1);
+//          ^^^^ support.constant.varyk - entity.name.function.varyk
+    let c = Circle(2.5);
+//          ^^^^^^ entity.name.type.varyk - entity.name.function.varyk
+    let v = Vec::new();
+//          ^^^ support.type.varyk
+//               ^^^ entity.name.function.varyk
+    bool i8 i16 i32 i64 u8 u16 u32 u64 usize f32 f64 string
+//  ^^^^ support.type.varyk
+//       ^^ support.type.varyk
+//          ^^^ support.type.varyk
+//              ^^^ support.type.varyk
+//                  ^^^ support.type.varyk
+//                      ^^ support.type.varyk
+//                         ^^^ support.type.varyk
+//                             ^^^ support.type.varyk
+//                                 ^^^ support.type.varyk
+//                                     ^^^^^ support.type.varyk
+//                                           ^^^ support.type.varyk
+//                                               ^^^ support.type.varyk
+//                                                   ^^^^^^ support.type.varyk
+    Option Result Vec HashMap Error Shared Task Time Uuid Bytes
+//  ^^^^^^ support.type.varyk
+//         ^^^^^^ support.type.varyk
+//                ^^^ support.type.varyk
+//                    ^^^^^^^ support.type.varyk
+//                            ^^^^^ support.type.varyk
+//                                  ^^^^^^ support.type.varyk
+//                                         ^^^^ support.type.varyk
+//                                              ^^^^ support.type.varyk
+//                                                   ^^^^ support.type.varyk
+//                                                        ^^^^^ support.type.varyk
+    Some None Ok Err
+//  ^^^^ support.constant.varyk
+//       ^^^^ support.constant.varyk
+//            ^^ support.constant.varyk
+//               ^^^ support.constant.varyk
+    struct User { name: string }
+//         ^^^^ entity.name.type.varyk
+//                ^^^^ - entity.name.function.varyk
+    let u: Option<User> = None;
+//                ^^^^ entity.name.type.varyk
+//         ^^^^^^ support.type.varyk
+    let strings = Timer;
+//      ^^^^^^^ - support.type.varyk
+//                ^^^^^ entity.name.type.varyk - support.type.varyk
