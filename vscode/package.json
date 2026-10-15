@@ -3,7 +3,7 @@
   "displayName": "Varyk",
   "description": "Highlighting for Varyk, and diagnostics and quick fixes from varyk lsp.",
   "publisher": "varyk",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT OR Apache-2.0",
   "repository": {
     "type": "git",
