@@ -38,15 +38,20 @@ code --extensionDevelopmentPath="$PWD"
 
 ## Zed
 
-Install **Varyk** from Zed's extensions panel. It highlights with the
-Tree-sitter grammar of
+The extension is submitted to Zed's extension registry
+([zed-industries/extensions#8007](https://github.com/zed-industries/extensions/pull/8007));
+once the Zed team merges it, install **Varyk** from Zed's extensions
+panel. Until then, install it from a checkout, as at the end of this
+section. It highlights with the Tree-sitter grammar of
 [tree-sitter-varyk](https://github.com/Varyk-Lang/tree-sitter-varyk) and
 gives the outline panel, comment toggling, brackets, and indentation.
 
 Diagnostics and quick fixes need `varyk` 0.9 or later on the path Zed
 sees for the project; there is no setting. When `varyk` is missing or
 too old, highlighting stays and the reason is in Zed's log
-(`zed: open log`).
+(`zed: open log`). In Restricted Mode, a folder Zed does not trust, the
+extension highlights but Zed starts no language server; diagnostics
+start once you trust the folder.
 
 To run the extension from a checkout, use "zed: install dev extension"
 and choose the `zed/` folder (Zed builds it, which needs Rust installed
