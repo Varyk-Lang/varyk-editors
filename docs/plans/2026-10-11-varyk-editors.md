@@ -218,6 +218,8 @@ Gate: `node scripts/drift-keywords.mjs ../varyk-editor-support/crates/varyk-synt
 - [ ] add the `publish` job: runs when a release was created, `environment: release`, `permissions: contents: read, id-token: write`; Node 22; `npm ci` and `vsce package` in `vscode/` to one `.vsix`; `azure/login` over OIDC with client and tenant ids from the environment and no subscription (`allow-no-subscriptions: true`, without which the login fails); `vsce publish --azure-credential` with that `.vsix`; `ovsx publish` with the same `.vsix` and the `OVSX_PAT` secret; a comment on the move to `vsce publish --oidc` from editors §8
 - [ ] add the manual Zed registry step and the owner's one-time setup of editors §8 (Marketplace publisher, federated credential for the `release` environment as a Contributor, Open VSX agreement, namespace and its claim, `OVSX_PAT`, ids as environment values) to `CONTRIBUTING.md`'s release section
 
+After 0.1.0, Open VSX moved to trusted publishing: `ovsx publish --trusted-publishing` for the workflow and environment registered on the namespace, and no `OVSX_PAT` secret.
+
 Gate: `jq . release-please-config.json .release-please-manifest.json` succeeds, `actionlint` passes when installed, and `version` paths in the two extra files match the config
 
 ### Task 7: Write the README per editor and finish CONTRIBUTING
