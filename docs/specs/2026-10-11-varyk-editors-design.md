@@ -253,7 +253,10 @@ id-token: write`) and runs `vsce publish --azure-credential`, and moves
 to `vsce publish --oidc` (shipped in vsce 4.0.0 but hidden from its help)
 once Microsoft's publishing docs cover the trusted-publishing policy it
 needs. Open VSX takes
-`ovsx publish` with the secret `OVSX_PAT`. Both publish with
+`ovsx publish --trusted-publishing`: the job's OIDC token is traded for a
+short-lived one, for the trusted publisher registered on the `varyk`
+namespace (this workflow in the `release` environment). 0.1.0 still
+published with a stored `OVSX_PAT` secret. Both publish with
 `--skip-duplicate`, so a run that failed after one registry had taken the
 version can be rerun. vsce needs Node 22 or later. The Zed registry is updated by hand with a
 pull request to `zed-industries/extensions`, until releases are frequent
@@ -266,8 +269,9 @@ as a member that may publish (Contributor), without which the sign-in
 works and the upload is refused;
 signs the Open VSX publisher agreement, creates the `varyk`
 namespace, and claims it with an issue on `EclipseFdn/open-vsx.org` (an
-unclaimed namespace shows an "unverified" warning); adds the `OVSX_PAT`
-secret; and opens the first registry pull request for Zed.
+unclaimed namespace shows an "unverified" warning); registers the workflow
+and the `release` environment as the namespace's trusted publisher; and
+opens the first registry pull request for Zed.
 
 ## 9. Documentation elsewhere
 

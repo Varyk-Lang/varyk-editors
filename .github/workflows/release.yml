@@ -47,8 +47,8 @@ jobs:
     needs: release-please
     if: needs.release-please.outputs.releases_created == 'true'
     runs-on: ubuntu-latest
-    # AZURE_CLIENT_ID and AZURE_TENANT_ID are variables, and OVSX_PAT a
-    # secret, of the `release` environment (CONTRIBUTING.md).
+    # AZURE_CLIENT_ID and AZURE_TENANT_ID are variables of the `release`
+    # environment (CONTRIBUTING.md). No registry token is stored.
     environment: release
     permissions:
       contents: read
@@ -88,8 +88,10 @@ jobs:
       - name: Publish to the Visual Studio Marketplace
         run: npx vsce publish --packagePath varyk.vsix --azure-credential --skip-duplicate
 
+      # Open VSX takes no access token either: ovsx trades the job's OIDC id
+      # token for a short-lived one, which Open VSX gives only to this
+      # workflow in the `release` environment, the trusted publisher of the
+      # `varyk` namespace. `--trusted-publishing` fails the step rather than
+      # look for a token.
       - name: Publish to Open VSX
-        # ovsx reads the token from OVSX_PAT.
-        env:
-          OVSX_PAT: ${{ secrets.OVSX_PAT }}
-        run: npx ovsx publish --packagePath varyk.vsix --skip-duplicate
+        run: npx ovsx publish --packagePath varyk.vsix --skip-duplicate --trusted-publishing

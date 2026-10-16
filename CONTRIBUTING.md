@@ -110,8 +110,11 @@ The Marketplace takes no personal access token: the job signs in to
 Microsoft Entra ID with a federated credential (`azure/login` over OIDC)
 and runs `vsce publish --azure-credential`. It moves to
 `vsce publish --oidc` once Microsoft's publishing docs cover the
-trusted-publishing policy that needs. Open VSX takes `ovsx publish` with
-the `OVSX_PAT` secret. Both publish with `--skip-duplicate`, so a run that
+trusted-publishing policy that needs. Open VSX takes no access token
+either: `ovsx publish --trusted-publishing` trades the job's OIDC token
+for a short-lived one, which Open VSX gives only to `release.yml` running
+in the `release` environment, the trusted publisher registered on the
+`varyk` namespace. Both publish with `--skip-duplicate`, so a run that
 failed after one registry had taken the version can be rerun.
 
 The Zed registry is updated by hand after each release: a pull request
@@ -138,8 +141,10 @@ The owner does these once, before the first release:
 - sign the Open VSX publisher agreement, create the `varyk`
   namespace, and claim it with an issue on `EclipseFdn/open-vsx.org` (an
   unclaimed namespace shows an "unverified" warning);
-- add an Open VSX access token as the `release` environment's secret
-  `OVSX_PAT`;
+- register a trusted publisher on the `varyk` namespace in Open VSX
+  (Trusted Publishers in the namespace settings): GitHub,
+  `Varyk-Lang/varyk-editors`, workflow `release.yml`, environment
+  `release`;
 - open the first Zed registry pull request, as above.
 
 ## Licensing of contributions
